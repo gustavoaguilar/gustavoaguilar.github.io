@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="../../style.css">
+  </head>
+  <body>
+    <div class="about">
+        <a href="../../index.html">
+            <div class="button">
+                Back to home
+            </div>
+        </a>
+        <h1> Easy way to start your application at boot on linux</h1>
+        <h2>Introduction</h2>
+
+        <p>When presented with this problem, we can find in the internet a lot of ways to solve e sometimes this can get quite confusing.</p>
+
+        <p>There are deprecated systems, there are new systems, one simpler and the other complex. A mix of configurations and files to edit, I've been there, and after some digging I found what I consider the best and the easiest way, using the user systemctl.</p>
+
+        <p>Why the user systemctl? This way you don't need to fiddle with the root user and make things easier with scripts and debugging your application, also, It's harder to **** things  up!</p>
+        <h2>Creating a new Service</h2>
+
+        <p>To create a new service you need to create a .service file:</p>
+
+        <p>Create file at:</p>
+
+        <p style="text-align:left; font-family: 'Courier New', Courier, monospace; background-color: rgba(0, 0, 0, 250);">~/.config/systemd/user/NAME.service</p>
+
+        The file should  have the contents:
+        <p style="text-align:left; font-family: 'Courier New', Courier, monospace; background-color: rgba(0, 0, 0, 250);">
+            [Unit]<br>
+            After=multi-user.target<br>
+    
+            [Service]<br>
+            ExecStart= YOUR_EXECUTABLE<br>
+    
+            [Install]<br>
+            WantedBy=default.target<br>
+        </p>
+
+        <p>Enable the service:</p>
+
+        <p style="text-align:left; font-family: 'Courier New', Courier, monospace; background-color: rgba(0, 0, 0, 250);">systemctl --user enable NAME.service</p>
+
+
+
+        <p>other useful commands:</p>
+        <p style="text-align:left; font-family: 'Courier New', Courier, monospace; background-color: rgba(0, 0, 0, 250);">
+        systemctl --user disable NAME.service<br>
+        systemctl --user start NAME.service<br>
+        systemctl --user stop NAME.service<br>
+        systemctl --user status NAME.service<br>
+        </p>
+
+        <p>This way the user can operate the service <b>(NO NEED FOR ROOT!).</b> The file paths are a lot easier and the risk of messing up is smaller.</p>
+
+        <p>If you want that your service runs at boot time and without need o user login, run:</p>
+
+        <p style="text-align:left; font-family: 'Courier New', Courier, monospace; background-color: rgba(0, 0, 0, 250);">sudo loginctl enable-linger $USER </p>
+
+        <p>Now the root systemctl will load your user systemctl services as well.</p>
+
+        <p>That's all folks!</p>
+    </div>    
+  </body>
+</html>
